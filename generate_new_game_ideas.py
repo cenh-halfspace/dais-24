@@ -33,7 +33,7 @@ dbutils.widgets.text("user_input", "I want to play a fantasy game that includes 
 text_input_from_user = dbutils.widgets.get("user_input")
 
 # Summarize
-max_words_to_use = 10
+max_words_to_use = 15
 
 # Vector search
 index_name = "workspace.steam.description_embeddings"
@@ -107,13 +107,7 @@ game_descriptions = game_descriptions.replace("'", "")
 # COMMAND ----------
 
 # Query and present results
-generative_query = f"SELECT ai_gen('Come up with a new and unique game, taking inspiration in the following games. The game that you come up with cannot be the same. Do not use any of the same words in the title, and make a description that is distinct from the inspiration. You should provide a title, genres and a description of the game. Your inspiration is: {game_descriptions}')"
-display(spark.sql(generative_query))
-
-# COMMAND ----------
-
-# Query and present results
-generative_query = f"SELECT ai_gen('Come up with a single new and unique game, based on the following original prompt: {text_input_from_user}. You should generate a single game idea, with a title, genre list and a description of the game. Take creative inspiration from the following existing game descriptions, from which you are not allowed to use the same words as the titles, and your game should be notably distinct from the inspiration. Your inspiration is: {game_descriptions}')"  
+generative_query = f"SELECT ai_gen('Come up with a single new and unique game, based on the following original prompt: {text_input_from_user}. You should generate a single game idea, with a title, genre list and a description of the game. Take creative inspiration from the following existing game descriptions, from which you are not allowed to use the same words as the titles, and your game should be notably distinct from the inspiration. Never mention your inspirations. Your inspiration is: {game_descriptions}')"  
 
 display(spark.sql(generative_query))
 
